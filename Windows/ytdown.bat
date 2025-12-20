@@ -16,7 +16,8 @@ timeout /t 1 >nul
 if not exist "yt-dlp.exe" (
     cls
     echo.
-    echo    Downloading Engine Components (yt-dlp)...
+    echo    Downloading Engine Components (yt-dlp)... 
+    echo    chuttk bln hitiyt padu wenne na...
     echo    [##########----------] 50%
     curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe -o yt-dlp.exe
 )
