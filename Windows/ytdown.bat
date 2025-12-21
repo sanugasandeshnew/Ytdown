@@ -1,193 +1,179 @@
 @echo off
-:: --- Tool Configuration ---
-title Ytdown Pro - Windows Version
-color 0b
 setlocal enabledelayedexpansion
+title Ytdown Pro - Professional Edition
 
-:: --- [ENTRY POINT / REFRESH] ---
+:: --- [INITIAL DIRECTORY SETUP] ---
+if not defined SAVE_DIR set "SAVE_DIR=%USERPROFILE%\Music\Spotdown"
+if not exist "%SAVE_DIR%" mkdir "%SAVE_DIR%"
+
 :loading
 cls
 echo.
-echo    Initializing System Packages...
-echo    [#####---------------] 25%
+echo    === YTDOWN PRO - PROFESSIONAL WINDOWS ===
+echo.
+echo    Searching for required files...
 timeout /t 1 >nul
 
-:: --- [yt-dlp Engine Check] ---
+<nul set /p "=    # finding yt-dlp... "
 if not exist "yt-dlp.exe" (
-    cls
-    echo.
-    echo    Downloading Engine Components (yt-dlp)... 
-    echo    chuttk bln hitiyt padu wenne na...
-    echo    [##########----------] 50%
+    echo installing...
     curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe -o yt-dlp.exe
-)
+) else (echo success.)
 
-:: --- [FFmpeg Smart Check & Auto-Install] ---
-cls
-echo.
-echo    Checking for Media Components (FFmpeg)...
-echo    [###############-----] 75%
-
-set "ffmpeg_path="
-:: 1. Check if FFmpeg is in PATH
+<nul set /p "=    # finding FFmpeg... "
 where ffmpeg >nul 2>nul
-if %errorlevel% equ 0 (
-    set "ffmpeg_path=ffmpeg"
-) else (
-    :: 2. Check Winget default path
-    set "w_path=%LOCALAPPDATA%\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.WinGet.Source_8wekyb3d8bbwe\ffmpeg-8.0.1-full_build\bin\ffmpeg.exe"
-    if exist "!w_path!" (
-        set "ffmpeg_path=!w_path!"
-    ) else (
-        cls
-        echo.
-        echo    Components missing! Attempting Auto-Installation...
-        echo    Please wait, this may take a moment...
-        :: Try silent install via Winget
-        winget install Gyan.FFmpeg --silent --accept-source-agreements --accept-package-agreements >nul 2>nul
-        
-        :: Final Check
-        where ffmpeg >nul 2>nul
-        if %errorlevel% equ 0 (
-            set "ffmpeg_path=ffmpeg"
-        ) else if exist "!w_path!" (
-            set "ffmpeg_path=!w_path!"
-        ) else (
-            set "ffmpeg_path=ffmpeg"
-        )
-    )
-)
+if %errorlevel% neq 0 (echo missing!) else (echo success.)
 
-cls
+timeout /t 1 >nul
 echo.
-echo    Ready to Use!
-echo    [####################] 100%
+echo    System Ready. Launching Menu...
 timeout /t 1 >nul
 
 :menu
 cls
 echo =================================================
-echo      Ytdown - PROFESSIONAL WINDOWS VERSION      
+echo      YTDOWN PRO - PROFESSIONAL WINDOWS
 echo      Developed by SSK x Gemini
 echo =================================================
-echo.
-if exist "cookies.txt" (echo  [STATUS] Cookies: ACTIVE) else (echo  [STATUS] Cookies: MISSING)
-
-:: Check if FFmpeg is actually usable now
-where "!ffmpeg_path!" >nul 2>nul
-if %errorlevel% equ 0 (
-    echo  [STATUS] System Engine: READY
-) else if exist "!ffmpeg_path!" (
-    echo  [STATUS] System Engine: READY
-) else (
-    echo  [STATUS] System Engine: NOT FOUND
-)
-
+echo  Save Path : %SAVE_DIR%
+if exist "cookies.txt" (echo  Status    : Cookies ACTIVE) else (echo  Status    : Cookies MISSING)
+where ffmpeg >nul 2>nul
+if %errorlevel% equ 0 (echo  Engine    : FFmpeg INSTALLED) else (echo  Engine    : FFmpeg MISSING)
 echo -------------------------------------------------
-echo  1. Best MP4 (Single Video)
-echo  2. Best MP3 (Single Audio)
-echo  3. Playlist MP4 (Video Options)
-echo  4. Playlist MP3 (Audio Options)
-echo  5. Refresh Tool (Re-scan System)
+echo  1. Download MP3 (Song Name or Link)
+echo  2. Download MP4 (Single Video)
+echo  3. Playlist MP3 (Audio Options)
+echo  4. Playlist MP4 (Video Options)
+echo  5. Settings
+echo  6. Update Tool (yt-dlp)
 echo  0. Exit
 echo =================================================
 set /p opt="Select Option: "
 
-if "%opt%"=="1" goto mp4
-if "%opt%"=="2" goto mp3
-if "%opt%"=="3" goto pl_mp4
-if "%opt%"=="4" goto pl_mp3
-if "%opt%"=="5" goto loading
+if "%opt%"=="1" goto mp3
+if "%opt%"=="2" goto mp4_menu
+if "%opt%"=="3" goto pl_mp3_menu
+if "%opt%"=="4" goto pl_mp4_menu
+if "%opt%"=="5" goto settings
+if "%opt%"=="6" goto update
 if "%opt%"=="0" exit
 goto menu
 
-:: --- [Download Execution Logic] ---
-
-:mp4
-set /p url="🔗 Enter URL: "
-if "%url%"=="" goto menu
-yt-dlp -f "bestvideo+bestaudio/best" --merge-output-format mp4 --ffmpeg-location "!ffmpeg_path!" --cookies cookies.txt -o "%%(title)s.%%(ext)s" %url%
-pause
-goto menu
-
+:: --- [SINGLE MP3] ---
 :mp3
-set /p url="🔗 Enter URL: "
+cls
+set /p input="🎵 Enter Song Name or Link: "
+if "%input%"=="" goto menu
+yt-dlp -x --audio-format mp3 --audio-quality 0 --embed-thumbnail --add-metadata --no-playlist --no-overwrites --cookies cookies.txt -o "%SAVE_DIR%\%%(title)s.%%(ext)s" "ytsearch1:%input%"
+pause
+goto menu
+
+:: --- [SINGLE MP4 QUALITY MENU] ---
+:mp4_menu
+cls
+echo =================================================
+echo        SELECT VIDEO QUALITY
+echo =================================================
+echo  1. Best Quality (4K/2K Support)
+echo  2. 1080p
+echo  3. 720p
+echo  4. 480p
+echo  5. 360p
+echo  0. Back
+echo =================================================
+set /p q="Selection: "
+if "%q%"=="1" set "f_code=bv+ba/b"
+if "%q%"=="2" set "f_code=bv*[height<=1080]+ba/b[height<=1080]"
+if "%q%"=="3" set "f_code=bv*[height<=720]+ba/b[height<=720]"
+if "%q%"=="4" set "f_code=bv*[height<=480]+ba/b[height<=480]"
+if "%q%"=="5" set "f_code=bv*[height<=360]+ba/b[height<=360]"
+if "%q%"=="0" goto menu
+if not defined f_code goto mp4_menu
+
+set /p url="🔗 Enter Video URL: "
 if "%url%"=="" goto menu
-yt-dlp -x --audio-format mp3 --ffmpeg-location "!ffmpeg_path!" --cookies cookies.txt -o "%%(title)s.%%(ext)s" %url%
+yt-dlp -f "%f_code%" --merge-output-format mp4 --no-playlist --cookies cookies.txt -o "%SAVE_DIR%\%%(title)s.%%(ext)s" "%url%"
+set "f_code="
 pause
 goto menu
 
-:pl_mp4
+:: --- [PLAYLIST MP3 MENU] ---
+:pl_mp3_menu
 cls
 echo =================================================
-echo      PLAYLIST MP4 OPTIONS
+echo        PLAYLIST MP3 OPTIONS
 echo =================================================
-echo  1. Download Full Playlist
-echo  2. Download Range
-echo  3. Download Specific Index
-echo  4. Back to Menu
+echo  1. All Items
+echo  2. Select Range (Start-End)
+echo  3. New Items Only (Skip existing)
+echo  0. Back
 echo =================================================
-set /p sub="Selection: "
-if "%sub%"=="1" goto pl_mp4_full
-if "%sub%"=="2" goto pl_mp4_range
-if "%sub%"=="3" goto pl_mp4_index
+set /p p_opt="Selection: "
+if "%p_opt%"=="0" goto menu
+set /p url="🔗 Enter Playlist URL: "
+if "%p_opt%"=="1" set "p_cmd="
+if "%p_opt%"=="2" (
+    set /p s="Start Index: "
+    set /p e="End Index: "
+    set "p_cmd=--playlist-start !s! --playlist-end !e!"
+)
+if "%p_opt%"=="3" set "p_cmd=--download-archive %SAVE_DIR%\archive.txt"
+
+:: Adding --extractor-args to bypass authentication check for playlists
+yt-dlp -x --audio-format mp3 --audio-quality 0 --embed-thumbnail --add-metadata !p_cmd! --no-overwrites --cookies cookies.txt --extractor-args "youtubetab:skip=authcheck" -o "%SAVE_DIR%\%%(playlist_title)s\%%(title)s.%%(ext)s" "%url%"
+pause
 goto menu
 
-:pl_mp3
+:: --- [PLAYLIST MP4 MENU] ---
+:pl_mp4_menu
 cls
 echo =================================================
-echo      PLAYLIST MP3 OPTIONS
+echo        PLAYLIST MP4 OPTIONS
 echo =================================================
-echo  1. Download Full Playlist
-echo  2. Download Range
-echo  3. Download Specific Index
-echo  4. Back to Menu
+echo  1. All Items
+echo  2. Select Range (Start-End)
+echo  3. New Items Only (Skip existing)
+echo  0. Back
 echo =================================================
-set /p sub="Selection: "
-if "%sub%"=="1" goto pl_mp3_full
-if "%sub%"=="2" goto pl_mp3_range
-if "%sub%"=="3" goto pl_mp3_index
-goto menu
-
-:: Playlist Commands
-:pl_mp4_full
+set /p p_opt="Selection: "
+if "%p_opt%"=="0" goto menu
 set /p url="🔗 Enter Playlist URL: "
-yt-dlp -f "bestvideo+bestaudio/best" --merge-output-format mp4 --ffmpeg-location "!ffmpeg_path!" --cookies cookies.txt -o "%%(playlist_title)s/%%(title)s.%%(ext)s" %url%
+if "%p_opt%"=="1" set "p_cmd="
+if "%p_opt%"=="2" (
+    set /p s="Start Index: "
+    set /p e="End Index: "
+    set "p_cmd=--playlist-start !s! --playlist-end !e!"
+)
+if "%p_opt%"=="3" set "p_cmd=--download-archive %SAVE_DIR%\archive.txt"
+
+:: Adding --extractor-args to bypass authentication check for playlists
+yt-dlp -f "bv+ba/b" --merge-output-format mp4 !p_cmd! --cookies cookies.txt --extractor-args "youtubetab:skip=authcheck" -o "%SAVE_DIR%\%%(playlist_title)s\%%(title)s.%%(ext)s" "%url%"
 pause
 goto menu
 
-:pl_mp4_range
-set /p url="🔗 Enter Playlist URL: "
-set /p s="Start: "
-set /p e="End: "
-yt-dlp -f "bestvideo+bestaudio/best" --playlist-start %s% --playlist-end %e% --merge-output-format mp4 --ffmpeg-location "!ffmpeg_path!" --cookies cookies.txt -o "%%(playlist_title)s/%%(title)s.%%(ext)s" %url%
-pause
+:: --- [SETTINGS & UPDATE] ---
+:settings
+cls
+echo =================================================
+echo                SETTINGS
+echo =================================================
+echo  1. Create/Edit cookies.txt (Notepad)
+echo  2. Watch Tutorial (YouTube Short)
+echo  3. Back to Main Menu
+echo -------------------------------------------------
+echo  4. Browse where want to download
+echo =================================================
+set /p sopt="Selection: "
+if "%sopt%"=="1" (if not exist "cookies.txt" echo # Netscape > cookies.txt & notepad cookies.txt)
+if "%sopt%"=="2" (start https://youtube.com/shorts/80DRIzKOknU?feature=share)
+if "%sopt%"=="4" (
+    set /p new_path="Enter New Folder Path: "
+    if not "!new_path!"=="" (set "SAVE_DIR=!new_path!" & if not exist "!new_path!" mkdir "!new_path!")
+)
 goto menu
 
-:pl_mp4_index
-set /p url="🔗 Enter Playlist URL: "
-set /p i="Index: "
-yt-dlp -f "bestvideo+bestaudio/best" --playlist-items %i% --merge-output-format mp4 --ffmpeg-location "!ffmpeg_path!" --cookies cookies.txt -o "%%(playlist_title)s/%%(title)s.%%(ext)s" %url%
-pause
-goto menu
-
-:pl_mp3_full
-set /p url="🔗 Enter Playlist URL: "
-yt-dlp -x --audio-format mp3 --ffmpeg-location "!ffmpeg_path!" --cookies cookies.txt -o "%%(playlist_title)s/%%(title)s.%%(ext)s" %url%
-pause
-goto menu
-
-:pl_mp3_range
-set /p url="🔗 Enter Playlist URL: "
-set /p s="Start: "
-set /p e="End: "
-yt-dlp -x --audio-format mp3 --playlist-start %s% --playlist-end %e% --ffmpeg-location "!ffmpeg_path!" --cookies cookies.txt -o "%%(playlist_title)s/%%(title)s.%%(ext)s" %url%
-pause
-goto menu
-
-:pl_mp3_index
-set /p url="🔗 Enter Playlist URL: "
-set /p i="Index: "
-yt-dlp -x --audio-format mp3 --playlist-items %i% --ffmpeg-location "!ffmpeg_path!" --cookies cookies.txt -o "%%(playlist_title)s/%%(title)s.%%(ext)s" %url%
+:update
+cls
+yt-dlp -U
 pause
 goto menu
