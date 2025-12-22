@@ -1,18 +1,38 @@
-# Ytdown Pro - Termux Edition 📱
+# 📥 Ytdown Pro - Universal Media Downloader
 
-Termux හරහා ඉතා වේගයෙන් සහ පහසුවෙන් YouTube වීඩියෝ සහ සින්දු (MP3/MP4) Download කරගත හැකි සරල Tool එකකි. මෙය `yt-dlp` සහ `ffmpeg` මත පදනම්ව නිපදවා ඇත.
+Windows සහ Android (Termux) දෙකේම පාවිච්චි කළ හැකි, ඉතා වේගවත් සහ සරල YouTube Downloader එකකි. 
 
-## ✨ විශේෂාංග (Features)
-- **High Quality MP3:** සින්දුවේ නම හෝ Link එක ලබා දී ඉහළම තත්ත්වයේ MP3 බාගත හැක.
-- **Video Quality:** 1080p සිට 480p දක්වා කැමති Quality එකක් තෝරාගත හැක.
-- **Playlist Support:** මුළු Playlist එකම එකවර Download කිරීමේ හැකියාව.
-- **Easy Setup:** Termux වලට අවශ්‍ය සියලුම දේවල් ස්වයංක්‍රීයව Install වේ.
-- **Clipboard Cookies:** YouTube restrictions මග හැරීමට cookies.txt පහසුවෙන් Import කළ හැක.
+---
 
-## 🛠️ ස්ථාපනය කිරීම (Installation)
+## 💻 For Windows Users
 
-පහත පියවරවල් පිළිවෙලින් ඔබගේ Termux එකේ Copy-Paste කරන්න:
+Windows සඳහා `.bat` ෆයිල් එක පාවිච්චි කරන්න. මෙය ස්වයංක්‍රීයව Shortcut එකක් සාදා ගන්නා අතර සියලුම දේවල් Auto-Setup කරගනී.
 
-1. **Storage එකට අවසර ලබා දීම:**
-   ```bash
-   termux-setup-storage
+### Features:
+- MP3 (High Quality) & MP4 (Selectable Quality) ඩවුන්ලෝඩ් පහසුකම.
+- Playlist ඩවුන්ලෝඩ් කිරීමේ හැකියාව.
+- Cookies Clipboard එකෙන් කෙලින්ම Import කිරීමේ පහසුකම.
+
+---
+
+## 📱 For Termux Users (Android)
+
+ඔබගේ Termux එකේ පහත පියවරවල් පිළිවෙලින් ක්‍රියාත්මක කරන්න. මෙහිදී සම්පූර්ණ Setup එකම ස්වයංක්‍රීයව සිදුවේ.
+
+### Installation Commands:
+
+```bash
+# 1. Storage එකට අවසර ලබා දීම (Confirm on your phone)
+termux-setup-storage
+
+# 2. අවශ්‍ය Packages install කිරීම
+pkg update && pkg upgrade -y
+pkg install git python ffmpeg curl -y
+pip install yt-dlp
+
+# 3. Repository එක Clone කරගැනීම
+git clone https://github.com/sanugasandeshnew/Ytdown.git
+
+# 4. Folder එක වෙත ගොස් Tool එක Run කිරීම
+cd Ytdown/termux
+bash tool.sh
