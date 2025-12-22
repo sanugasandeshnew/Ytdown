@@ -1,31 +1,38 @@
-# Ytdown Pro - Professional Media Downloader
+# 📥 Ytdown Pro - Universal Media Downloader
 
-A lightweight, high-speed YouTube MP3 and MP4 downloader for Windows built using Batch and powered by `yt-dlp`.
+Windows සහ Android (Termux) දෙකේම පාවිච්චි කළ හැකි, ඉතා වේගවත් සහ සරල YouTube Downloader එකකි. 
 
-## 🚀 Features
-- **Smart Download:** Input a song name to search or paste a direct URL.
-- **Quality Control:** Choose between 4K/1080p, 720p, or 480p for videos.
-- **Playlist Support:** Download entire playlists as high-quality MP3s or MP4s.
-- **Auto-Setup:** Automatically downloads the `yt-dlp` engine and creates a Desktop shortcut with an icon.
-- **Cookie Manager:** Built-in clipboard import for `cookies.txt` to bypass YouTube age restrictions.
+---
 
-## 🛠️ Requirements
-- Windows OS
-- [FFmpeg](https://ffmpeg.org/download.html) (Highly recommended for merging video/audio)
+## 💻 For Windows Users
 
-## 📖 How to Use
-1. Download the `Ytdown Pro.bat` file.
-2. Run it (It will automatically rename itself and create a Desktop icon).
-3. Start downloading by choosing an option from the menu.
+Windows සඳහා `.bat` ෆයිල් එක පාවිච්චි කරන්න. මෙය ස්වයංක්‍රීයව Shortcut එකක් සාදා ගන්නා අතර සියලුම දේවල් Auto-Setup කරගනී.
 
-## 🍪 Setting up Cookies (Optional but Recommended)
-To download age-restricted or private videos:
-1. Go to **Settings (5)** -> **Get Cookie Extension (2)**.
-2. Log in to YouTube in your browser.
-3. Export cookies using the extension.
-4. Go to **Settings (5)** -> **Import from Clipboard (4)**.
+### Features:
+- MP3 (High Quality) & MP4 (Selectable Quality) ඩවුන්ලෝඩ් පහසුකම.
+- Playlist ඩවුන්ලෝඩ් කිරීමේ හැකියාව.
+- Cookies Clipboard එකෙන් කෙලින්ම Import කිරීමේ පහසුකම.
 
-## ⚖️ License
-This project is for educational purposes only. Please respect YouTube's Terms of Service.
+---
 
-**Developed by SSK x Gemini**
+## 📱 For Termux Users (Android)
+
+ඔබගේ Termux එකේ පහත පියවරවල් පිළිවෙලින් ක්‍රියාත්මක කරන්න. මෙහිදී සම්පූර්ණ Setup එකම ස්වයංක්‍රීයව සිදුවේ.
+
+### Installation Commands:
+
+```bash
+# 1. Storage එකට අවසර ලබා දීම (Confirm on your phone)
+termux-setup-storage
+
+# 2. අවශ්‍ය Packages install කිරීම
+pkg update && pkg upgrade -y
+pkg install git python ffmpeg curl -y
+pip install yt-dlp
+
+# 3. Repository එක Clone කරගැනීම
+git clone [https://github.com/sanugasandeshnew/Ytdown.git](https://github.com/sanugasandeshnew/Ytdown.git)
+
+# 4. Folder එක වෙත ගොස් Tool එක Run කිරීම
+cd Ytdown/termux
+bash tool.sh
