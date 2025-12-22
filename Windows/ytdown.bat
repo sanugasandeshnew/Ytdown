@@ -3,7 +3,7 @@ setlocal enabledelayedexpansion
 title Ytdown Pro - Professional Edition
 
 :: --- [INITIAL DIRECTORY SETUP] ---
-if not defined SAVE_DIR set "SAVE_DIR=%USERPROFILE%\Music\Spotdown"
+if not defined SAVE_DIR set "SAVE_DIR=%USERPROFILE%\Music\Ytdown"
 if not exist "%SAVE_DIR%" mkdir "%SAVE_DIR%"
 
 :loading
