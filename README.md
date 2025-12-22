@@ -1,34 +1,31 @@
-# 🚀 YTDOWN PROFESSIONAL MULTI-PLATFORM DOWNLOADER
-> **The Ultimate YouTube Downloading Solution for Android & Windows.**
+# Ytdown Pro - Professional Media Downloader
 
-![Main Banner](https://img.shields.io/badge/Developed%20By-SSK%20x%20Gemini-blue?style=for-the-badge&logo=github)
-![Version](https://img.shields.io/badge/Version-2.0-green?style=for-the-badge)
-![License](https://img.shields.io/badge/License-MIT-orange?style=for-the-badge)
+A lightweight, high-speed YouTube MP3 and MP4 downloader for Windows built using Batch and powered by `yt-dlp`.
 
----
+## 🚀 Features
+- **Smart Download:** Input a song name to search or paste a direct URL.
+- **Quality Control:** Choose between 4K/1080p, 720p, or 480p for videos.
+- **Playlist Support:** Download entire playlists as high-quality MP3s or MP4s.
+- **Auto-Setup:** Automatically downloads the `yt-dlp` engine and creates a Desktop shortcut with an icon.
+- **Cookie Manager:** Built-in clipboard import for `cookies.txt` to bypass YouTube age restrictions.
 
-## 🌟 Overview
-**Ytdown** is a powerful, lightweight, and user-friendly tool designed to download high-quality content from YouTube. Whether you are on the go with your **Android** phone or working on your **Windows PC**, we have you covered.
+## 🛠️ Requirements
+- Windows OS
+- [FFmpeg](https://ffmpeg.org/download.html) (Highly recommended for merging video/audio)
 
----
+## 📖 How to Use
+1. Download the `Ytdown Pro.bat` file.
+2. Run it (It will automatically rename itself and create a Desktop icon).
+3. Start downloading by choosing an option from the menu.
 
-## 📂 Choose Your Platform
-Click on a button below to get specific instructions for your device:
+## 🍪 Setting up Cookies (Optional but Recommended)
+To download age-restricted or private videos:
+1. Go to **Settings (5)** -> **Get Cookie Extension (2)**.
+2. Log in to YouTube in your browser.
+3. Export cookies using the extension.
+4. Go to **Settings (5)** -> **Import from Clipboard (4)**.
 
-| Platform | Link | Description |
-| :--- | :--- | :--- |
-| **📱 Android** | [**Go to Termux Setup**](./Termux) | Optimized for mobile with one-line install. |
-| **💻 Windows** | [**Go to Windows Setup**](./Windows) | Pro Batch script with auto-dependency detection. |
+## ⚖️ License
+This project is for educational purposes only. Please respect YouTube's Terms of Service.
 
----
-
-## 🔥 Key Features
-* ✅ **High Quality:** Supports 4K, 1080p MP4 and 320kbps MP3.
-* ✅ **Smart Playlist:** Download full playlists or specific ranges (e.g. 5 to 15).
-* ✅ **Bypass Restrictions:** Full support for `cookies.txt` to download age-restricted videos.
-* ✅ **Zero Config:** Automatically handles `yt-dlp` and `FFmpeg` setup.
-
----
-
-## 👨‍💻 Connect with Developer
-**SSK (Sanuga Sandesh)** *Project Collaboration with Gemini AI.*
+**Developed by SSK x Gemini**
