@@ -37,7 +37,7 @@ pip install yt-dlp
 ````
 # 3. Repository එක Clone කරගැනීම
 ```bash
-git clone [https://github.com/sanugasandeshnew/Ytdown.git](https://github.com/sanugasandeshnew/Ytdown.git)
+git clone https://github.com/sanugasandeshnew/Ytdown.git
 ````
 # 4. Folder එක වෙත ගොස් Tool එක Run කිරීම
 ```bash
